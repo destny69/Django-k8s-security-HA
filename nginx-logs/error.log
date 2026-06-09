@@ -1,0 +1,52 @@
+2026/06/06 16:32:17 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 16:32:17 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 16:32:17 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 16:35:54 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 16:35:54 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 16:35:54 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 16:45:41 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 16:45:41 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 16:45:41 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 16:51:41 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 16:51:41 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 16:51:41 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 16:53:03 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 16:53:03 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 16:53:03 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 17:10:43 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 17:10:43 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 17:10:43 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 17:11:48 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/06 17:11:48 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/06 17:11:48 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/06 19:06:17 [error] 563#563: *1403 [client 172.19.0.4] ModSecurity: Access denied with code 403 (phase 2). Matched "Operator `Ge' with parameter `5' against variable `TX:BLOCKING_INBOUND_ANOMALY_SCORE' (Value: `5' ) [file "/etc/modsecurity.d/owasp-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "222"] [id "949110"] [rev ""] [msg "Inbound Anomaly Score Exceeded (Total Score: 5)"] [data ""] [severity "0"] [ver "OWASP_CRS/4.25.0"] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [tag "anomaly-evaluation"] [tag "OWASP_CRS"] [hostname "django-auth.manjilgautam.com.np"] [uri "/.env"] [unique_id "178077277789.402684"] [ref ""], client: 172.19.0.4, server: localhost, request: "GET /.env HTTP/1.1", host: "django-auth.manjilgautam.com.np"
+2026/06/07 02:43:48 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/07 02:43:48 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/07 02:43:48 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 08:44:08 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 08:44:08 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 08:44:08 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 08:54:10 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 08:54:10 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 08:54:10 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 09:23:17 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 09:23:17 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 09:23:17 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 09:35:15 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 09:35:15 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 09:35:15 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 09:46:04 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 09:46:04 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 09:46:04 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/08 09:59:48 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/08 09:59:48 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/08 09:59:48 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/09 01:09:53 [error] 564#564: *4432 [client 172.18.0.3] ModSecurity: Access denied with code 403 (phase 2). Matched "Operator `Ge' with parameter `5' against variable `TX:BLOCKING_INBOUND_ANOMALY_SCORE' (Value: `5' ) [file "/etc/modsecurity.d/owasp-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "222"] [id "949110"] [rev ""] [msg "Inbound Anomaly Score Exceeded (Total Score: 5)"] [data ""] [severity "0"] [ver "OWASP_CRS/4.25.0"] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [tag "anomaly-evaluation"] [tag "OWASP_CRS"] [hostname "django-auth.manjilgautam.com.np"] [uri "/.git/config"] [unique_id "178096739311.672205"] [ref ""], client: 172.18.0.3, server: localhost, request: "GET /.git/config HTTP/1.1", host: "django-auth.manjilgautam.com.np"
+2026/06/09 04:09:30 [warn] 564#564: *4790 a client request body is buffered to a temporary file /var/cache/nginx/client_temp/0000000001, client: 172.18.0.3, server: localhost, request: "POST / HTTP/1.1", host: "django-auth.manjilgautam.com.np", referrer: "https://django-auth.manjilgautam.com.np/"
+2026/06/09 04:09:30 [error] 564#564: *4790 [client 172.18.0.3] ModSecurity: Access denied with code 403 (phase 2). Matched "Operator `Ge' with parameter `5' against variable `TX:BLOCKING_INBOUND_ANOMALY_SCORE' (Value: `60' ) [file "/etc/modsecurity.d/owasp-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "222"] [id "949110"] [rev ""] [msg "Inbound Anomaly Score Exceeded (Total Score: 60)"] [data ""] [severity "0"] [ver "OWASP_CRS/4.25.0"] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [tag "anomaly-evaluation"] [tag "OWASP_CRS"] [hostname "django-auth.manjilgautam.com.np"] [uri "/"] [unique_id "178097817011.460011"] [ref ""], client: 172.18.0.3, server: localhost, request: "POST / HTTP/1.1", host: "django-auth.manjilgautam.com.np", referrer: "https://django-auth.manjilgautam.com.np/"
+2026/06/09 04:09:30 [error] 564#564: *4790 [client 172.18.0.3] ModSecurity: Access denied with code 400 (phase 2). Matched "Operator `Eq' with parameter `0' against variable `REQBODY_ERROR' (Value: `1' ) [file "/etc/modsecurity.d/modsecurity.conf"] [line "48"] [id "200002"] [rev ""] [msg "Failed to parse request body."] [data "Multipart parsing error: Multipart: No boundaries found in payload."] [severity "2"] [ver ""] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [hostname "django-auth.manjilgautam.com.np"] [uri "/"] [unique_id "178097817032.317187"] [ref "v1039,1"], client: 172.18.0.3, server: localhost, request: "POST / HTTP/1.1", host: "django-auth.manjilgautam.com.np", referrer: "https://django-auth.manjilgautam.com.np/"
+2026/06/09 04:57:32 [warn] 1#1: "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/nginx/conf/server.crt"
+2026/06/09 04:57:32 [notice] 1#1: ModSecurity-nginx v1.0.4 (rules loaded inline/local/remote: 0/847/0)
+2026/06/09 04:57:32 [notice] 1#1: libmodsecurity3 version 3.0.15
+2026/06/09 05:10:47 [error] 563#563: *26 [client 172.18.0.4] ModSecurity: Access denied with code 403 (phase 2). Matched "Operator `Ge' with parameter `5' against variable `TX:BLOCKING_INBOUND_ANOMALY_SCORE' (Value: `5' ) [file "/etc/modsecurity.d/owasp-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "222"] [id "949110"] [rev ""] [msg "Inbound Anomaly Score Exceeded (Total Score: 5)"] [data ""] [severity "0"] [ver "OWASP_CRS/4.25.0"] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [tag "anomaly-evaluation"] [tag "OWASP_CRS"] [hostname "django-auth.manjilgautam.com.np"] [uri "/api/auth/login/"] [unique_id "178098184720.711777"] [ref ""], client: 172.18.0.4, server: localhost, request: "POST /api/auth/login/ HTTP/1.1", host: "django-auth.manjilgautam.com.np", referrer: "https://django-auth.manjilgautam.com.np/api/auth/login/"
+2026/06/09 05:11:18 [error] 563#563: *26 [client 172.18.0.4] ModSecurity: Access denied with code 403 (phase 2). Matched "Operator `Ge' with parameter `5' against variable `TX:BLOCKING_INBOUND_ANOMALY_SCORE' (Value: `5' ) [file "/etc/modsecurity.d/owasp-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "222"] [id "949110"] [rev ""] [msg "Inbound Anomaly Score Exceeded (Total Score: 5)"] [data ""] [severity "0"] [ver "OWASP_CRS/4.25.0"] [maturity "0"] [accuracy "0"] [tag "modsecurity"] [tag "anomaly-evaluation"] [tag "OWASP_CRS"] [hostname "django-auth.manjilgautam.com.np"] [uri "/api/auth/login/"] [unique_id "178098187847.565284"] [ref ""], client: 172.18.0.4, server: localhost, request: "POST /api/auth/login/ HTTP/1.1", host: "django-auth.manjilgautam.com.np", referrer: "https://django-auth.manjilgautam.com.np/api/auth/login/"

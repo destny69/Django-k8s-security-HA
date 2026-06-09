@@ -1,0 +1,169 @@
+networks:
+  traefik-net:
+    name: traefik-net
+    driver: bridge
+services:
+
+  # =========================
+  # TRAEFIK (EDGE)
+  # =========================
+  traefik:
+    image: traefik:v3.7
+    container_name: traefik
+    restart: unless-stopped
+
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=traefik-net
+
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=admin@django-auth.manjilgautam.com.np
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+
+      - --accesslog=true
+      - --accesslog.format=json
+      - --accesslog.filepath=/var/log/traefik/access.log
+
+      - --log.level=INFO
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+      - ./traefik-logs:/var/log/traefik
+
+    networks:
+      - traefik-net
+
+  # =========================
+  # WAF (MODSECURITY)
+  # =========================
+  waf:
+    image: owasp/modsecurity-crs:nginx
+    container_name: modsecurity-waf
+    restart: unless-stopped
+
+    environment:
+      BACKEND: http://django-web:8000
+      PORT: 8080
+
+      PARANOIA: 1
+      ANOMALY_INBOUND: 5
+      ANOMALY_OUTBOUND: 4
+      BLOCKING_PARANOIA: 1
+
+      REMOTEIP_HEADER: X-Forwarded-For
+
+    user: root
+
+    volumes:
+      - ./waf-logs:/var/log/modsecurity
+      - ./nginx-logs:/var/log/nginx
+
+    networks:
+      - traefik-net
+
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-net
+
+      # Router
+      - traefik.http.routers.app.rule=Host(`django-auth.manjilgautam.com.np`)
+      - traefik.http.routers.app.entrypoints=websecure
+      - traefik.http.routers.app.tls.certresolver=myresolver
+
+
+      # Login router
+      - traefik.http.routers.login.rule=Host(`django-auth.manjilgautam.com.np`) && PathPrefix(`/api/auth/login`)
+      - traefik.http.routers.login.entrypoints=websecure
+      - traefik.http.routers.login.tls.certresolver=myresolver
+      - traefik.http.routers.login.middlewares=login-ratelimit
+      - traefik.http.routers.login.service=app
+      - traefik.http.routers.app.priority=1
+      - traefik.http.routers.login.priority=100
+      # Service
+      - traefik.http.services.app.loadbalancer.server.port=8080
+
+      # =========================
+      # RATE LIMITING
+      # =========================
+
+      # 300 requests per minute
+      - traefik.http.middlewares.app-ratelimit.ratelimit.average=300
+      - traefik.http.middlewares.app-ratelimit.ratelimit.period=1m
+
+      # Allow short bursts
+      - traefik.http.middlewares.app-ratelimit.ratelimit.burst=30
+
+      # Rate limit based on client IP
+      - traefik.http.middlewares.app-ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=1
+      
+
+      - traefik.http.middlewares.login-ratelimit.ratelimit.average=50
+      - traefik.http.middlewares.login-ratelimit.ratelimit.period=1m
+      - traefik.http.middlewares.login-ratelimit.ratelimit.burst=10
+
+
+      # Attach middleware
+      - traefik.http.routers.app.middlewares=app-ratelimit
+      - traefik.http.routers.login.middlewares=app-ratelimit,login-ratelimit
+  # =========================
+  # DJANGO APP
+  # =========================
+  django-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: django-web
+    restart: unless-stopped
+
+    environment:
+      DJANGO_DEBUG: "0"
+      DJANGO_ALLOWED_HOSTS: django-auth.manjilgautam.com.np
+
+      USE_X_FORWARDED_HOST: "1"
+      SECURE_PROXY_SSL_HEADER: "HTTP_X_FORWARDED_PROTO,https"
+
+    volumes:
+      - .:/app
+
+    networks:
+      - traefik-net
+
+  # =========================
+  # FAIL2BAN
+  # =========================
+  fail2ban:
+    build:
+      context: .
+      dockerfile: fail2ban/Dockerfile
+
+    container_name: fail2ban
+    restart: unless-stopped
+
+    network_mode: host
+
+    privileged: true
+
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+    volumes:
+      - ./traefik-logs:/var/log/traefik:ro
+      - ./waf-logs:/var/log/modsecurity:ro
+      - ./nginx-logs:/var/log/nginx:ro
+      - ./fail2ban/jail.d:/etc/fail2ban/jail.d:ro
+      - ./fail2ban/filter.d:/etc/fail2ban/filter.d:ro
+
+    depends_on:
+      - traefik
+
