@@ -1,3 +1,22 @@
-[Definition]
-failregex = .*POST /api/auth/login/.* 401.*
-ignoreregex =
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fail2ban-config
+  namespace: django-auth
+
+data:
+  jail.local: |
+    [DEFAULT]
+    bantime = 600
+    findtime = 600
+    maxretry = 5
+
+    [django-auth]
+    enabled = true
+    filter = django-auth
+    logpath = /var/log/traefik/access.log
+
+  django-auth.conf: |
+    [Definition]
+    failregex = .*POST /api/auth/login/.* 401.*
+    ignoreregex =

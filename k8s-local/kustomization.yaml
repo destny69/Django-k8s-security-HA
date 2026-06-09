@@ -16,7 +16,7 @@ resources:
   - django/service.yaml
   - django/deployment.yaml
   - django/hpa.yaml
-  - django/pdp.yaml
+  - django/pdb.yaml
 
   - ingress/middleware-ratelimit.yaml
   - ingress/ingress.yaml
