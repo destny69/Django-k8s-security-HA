@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: django-auth
+  namespace: django-auth
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: django-auth
+
+  template:
+    metadata:
+      labels:
+        app: django-auth
+
+    spec:
+      imagePullSecrets:
+        - name: registry-secret
+
+      initContainers:
+
+        - name: migrate
+
+          image: registry.manjilgautam.com.np/django-auth:v1
+
+          envFrom:
+            - secretRef:
+                name: django-secret
+
+          command:
+            - sh
+            - -c
+            - |
+              python manage.py migrate --noinput
+
+      containers:
+        - name: django-auth
+
+          image: registry.manjilgautam.com.np/django-auth:v1
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8000
+
+          envFrom:
+            - secretRef:
+                name: django-secret
+
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 15
+
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 30
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+            limits:
+              cpu: 500m
+              memory: 512Mi
