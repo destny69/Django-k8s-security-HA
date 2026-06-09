@@ -9,7 +9,19 @@ resources:
   - postgres/service.yaml
   - postgres/statefulset.yaml
 
+  - pgbouncer/service.yaml
+  - pgbouncer/deployment.yaml
+  - pgbouncer/configmap.yaml
+
   - django/service.yaml
   - django/deployment.yaml
+  - django/hpa.yaml
+  - django/pdp.yaml
 
+  - ingress/middleware-ratelimit.yaml
   - ingress/ingress.yaml
+
+  - fail2ban/configmap.yaml
+  - fail2ban/deployment.yaml
+
+  - cert-manager/clusterissuer.yaml
