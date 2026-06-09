@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: django-ingress
+  namespace: django-auth
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # If using Traefik:
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - django-auth.manjilgautam.com.np
+    secretName: django-tls
+  rules:
+  - host: django-auth.manjilgautam.com.np
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: django-app
+            port:
+              number: 8000

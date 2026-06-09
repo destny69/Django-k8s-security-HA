@@ -1,0 +1,64 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: django-auth-dev
+
+bases:
+  - ../../
+
+namePrefix: dev-
+
+commonLabels:
+  environment: dev
+
+replicas:
+  - name: django-app
+    count: 1
+  - name: postgres
+    count: 1
+  - name: traefik
+    count: 1
+  - name: waf
+    count: 1
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: django-app
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: django-secret
+                key: DJANGO_SECRET_KEY
+          - name: DJANGO_DEBUG
+            value: "1"
+          - name: DJANGO_ALLOWED_HOSTS
+            value: "localhost,127.0.0.1"
+          - name: POSTGRES_HOST
+            value: "postgres.django-auth-dev.svc.cluster.local"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_DB
+            value: "django_dev"
+          - name: POSTGRES_USER
+            value: "django_dev"
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: apps/v1
+    kind: HorizontalPodAutoscaler
+    metadata:
+      name: django-app-hpa
+    spec:
+      minReplicas: 1
+      maxReplicas: 2
+
+resources:
+  - configmap-dev.yaml

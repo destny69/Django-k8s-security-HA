@@ -1,0 +1,43 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: django-auth
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - django-rbac.yaml
+  - postgres-pvc.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
+  - django-app-deployment.yaml
+  - django-app-service.yaml
+  - django-app-hpa.yaml
+  - traefik-pvc.yaml
+  - traefik-deployment.yaml
+  - traefik-service.yaml
+  - traefik-rbac.yaml
+  - ingress.yaml
+  - waf-pvc.yaml
+  - waf-deployment.yaml
+  - waf-service.yaml
+
+images:
+  - name: django-app
+    newTag: latest
+
+commonLabels:
+  managed-by: kustomize
+  environment: production
+
+replicas:
+  - name: django-app
+    count: 3
+  - name: postgres
+    count: 1
+  - name: traefik
+    count: 1
+  - name: waf
+    count: 1

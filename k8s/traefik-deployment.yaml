@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  namespace: django-auth
+  labels:
+    app: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+      
+      containers:
+      - name: traefik
+        image: traefik:v3.7
+        ports:
+        - containerPort: 80
+          name: web
+        - containerPort: 443
+          name: websecure
+        - containerPort: 8080
+          name: dashboard
+        
+        args:
+        - --providers.kubernetesing=true
+        - --providers.kubernetesing.ingressclass=traefik
+        - --providers.kubernetesing.allowexternalnameservices=true
+        
+        - --entrypoints.web.address=:80
+        - --entrypoints.websecure.address=:443
+        - --entrypoints.dashboard.address=:8080
+        
+        - --certificatesresolvers.myresolver.acme.tlschallenge=true
+        - --certificatesresolvers.myresolver.acme.email=admin@django-auth.manjilgautam.com.np
+        - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+        
+        - --accesslog=true
+        - --accesslog.format=json
+        
+        - --log.level=INFO
+        - --api.dashboard=true
+        
+        volumeMounts:
+        - name: letsencrypt
+          mountPath: /letsencrypt
+        
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      
+      volumes:
+      - name: letsencrypt
+        persistentVolumeClaim:
+          claimName: traefik-letsencrypt-pvc

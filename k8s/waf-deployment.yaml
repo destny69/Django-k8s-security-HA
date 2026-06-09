@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waf
+  namespace: django-auth
+  labels:
+    app: waf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waf
+  template:
+    metadata:
+      labels:
+        app: waf
+    spec:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+      
+      containers:
+      - name: waf
+        image: owasp/modsecurity-crs:nginx
+        ports:
+        - containerPort: 8080
+          name: http
+        
+        env:
+        - name: BACKEND
+          value: "http://django-app:8000"
+        - name: PORT
+          value: "8080"
+        - name: PARANOIA
+          value: "1"
+        - name: ANOMALY_INBOUND
+          value: "5"
+        - name: ANOMALY_OUTBOUND
+          value: "4"
+        - name: BLOCKING_PARANOIA
+          value: "1"
+        - name: REMOTEIP_HEADER
+          value: "X-Forwarded-For"
+        
+        volumeMounts:
+        - name: waf-logs
+          mountPath: /var/log/modsecurity
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
+      
+      volumes:
+      - name: waf-logs
+        persistentVolumeClaim:
+          claimName: waf-logs-pvc

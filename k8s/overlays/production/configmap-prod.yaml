@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-config
+data:
+  DJANGO_DEBUG: "0"
+  DJANGO_ALLOWED_HOSTS: "django-auth.manjilgautam.com.np"
+  USE_X_FORWARDED_HOST: "1"
+  SECURE_PROXY_SSL_HEADER: "HTTP_X_FORWARDED_PROTO,https"
+  POSTGRES_HOST: "postgres.django-auth.svc.cluster.local"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "django_auth"
+  POSTGRES_USER: "django"

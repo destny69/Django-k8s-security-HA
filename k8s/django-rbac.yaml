@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: django-app
+  namespace: django-auth
+  labels:
+    app: django-app
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: django-app
+  namespace: django-auth
+  labels:
+    app: django-app
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: django-app
+  namespace: django-auth
+  labels:
+    app: django-app
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: django-app
+subjects:
+- kind: ServiceAccount
+  name: django-app
+  namespace: django-auth
