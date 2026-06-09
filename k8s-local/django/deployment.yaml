@@ -32,7 +32,7 @@ spec:
 
         - name: migrate
 
-          image: registry.manjilgautam.com.np/django-auth:v1
+          image: registry.manjilgautam.com.np/django-auth:v2
 
           envFrom:
             - secretRef:
@@ -47,7 +47,7 @@ spec:
       containers:
         - name: django-auth
 
-          image: registry.manjilgautam.com.np/django-auth:v1
+          image: registry.manjilgautam.com.np/django-auth:v2
 
           imagePullPolicy: Always
 
