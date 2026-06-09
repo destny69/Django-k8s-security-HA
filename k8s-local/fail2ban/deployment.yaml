@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fail2ban
+  namespace: django-auth
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: fail2ban
+
+  template:
+    metadata:
+      labels:
+        app: fail2ban
+
+    spec:
+      hostNetwork: true
+
+      containers:
+      - name: fail2ban
+        image: crazymax/fail2ban:latest
