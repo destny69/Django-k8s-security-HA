@@ -21,7 +21,7 @@ resources:
   - ingress/middleware-ratelimit.yaml
   - ingress/ingress.yaml
 
-  - fail2ban/configmap.yaml
-  - fail2ban/deployment.yaml
+  #- fail2ban/configmap.yaml
+  #- fail2ban/deployment.yaml
 
   - cert-manager/clusterissuer.yaml

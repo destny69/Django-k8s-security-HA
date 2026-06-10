@@ -23,3 +23,41 @@ spec:
 
         ports:
         - containerPort: 6432
+
+        env:
+        - name: DB_HOST
+          value: postgres
+
+        - name: DB_PORT
+          value: "5432"
+
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: django-secret
+              key: POSTGRES_USER
+
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: django-secret
+              key: POSTGRES_PASSWORD
+
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: django-secret
+              key: POSTGRES_DB
+
+        - name: POOL_MODE
+          value: transaction
+
+        - name: MAX_CLIENT_CONN
+          value: "500"
+
+        - name: DEFAULT_POOL_SIZE
+          value: "50"
+
+          
+        - name: AUTH_TYPE
+          value: scram-sha-256
