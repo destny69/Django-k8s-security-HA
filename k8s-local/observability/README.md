@@ -1,8 +1,8 @@
-# Kubernetes Observability Stack
+# Kubernetes logging Stack
 
 ## Overview
 
-This document describes the observability architecture used for the Kubernetes cluster.
+This document describes the logging architecture used for the Kubernetes cluster.
 
 The goal is to keep monitoring, logging, metrics, dashboards, and alerting completely isolated from application workloads.
 
@@ -20,7 +20,7 @@ Kubernetes Cluster
 │   ├── Fail2Ban
 │   └── Traefik Ingress
 │
-└── observability namespace
+└── logging namespace
     ├── Promtail
     ├── Grafana Agent (optional)
     ├── Future Metrics Exporters
@@ -37,7 +37,7 @@ External Monitoring Server
 
 # Why a Separate Namespace?
 
-Using a dedicated namespace for observability provides:
+Using a dedicated namespace for logging provides:
 
 ### Security
 
@@ -71,7 +71,7 @@ Permissions can be scoped specifically for monitoring workloads.
 Create the namespace:
 
 ```bash
-kubectl create namespace observability
+kubectl create namespace logging
 ```
 
 Verify:
@@ -87,7 +87,7 @@ NAME
 cert-manager
 django-auth
 kube-system
-observability
+logging
 ```
 
 ---
@@ -182,7 +182,7 @@ kubectl apply -f promtail/daemonset.yaml
 Check DaemonSet:
 
 ```bash
-kubectl get daemonset -n observability
+kubectl get daemonset -n logging
 ```
 
 Expected:
@@ -195,13 +195,13 @@ promtail   1         1         1
 Check Pods:
 
 ```bash
-kubectl get pods -n observability
+kubectl get pods -n logging
 ```
 
 Check Logs:
 
 ```bash
-kubectl logs -n observability daemonset/promtail
+kubectl logs -n logging daemonset/promtail
 ```
 
 ---
@@ -211,13 +211,13 @@ kubectl logs -n observability daemonset/promtail
 ## Verify Namespace
 
 ```bash
-kubectl get ns observability
+kubectl get ns logging
 ```
 
 ## Verify Service Account
 
 ```bash
-kubectl get sa -n observability
+kubectl get sa -n logging
 ```
 
 ## Verify RBAC
@@ -234,36 +234,36 @@ kubectl get clusterrolebinding | grep promtail
 
 ```bash
 kubectl describe pod \
--n observability \
-$(kubectl get pods -n observability -o name | head -1)
+-n logging \
+$(kubectl get pods -n logging -o name | head -1)
 ```
 
 ---
 
 # Useful Commands
 
-## Show All Observability Resources
+## Show All logging Resources
 
 ```bash
-kubectl get all -n observability
+kubectl get all -n logging
 ```
 
 ## View Promtail Logs
 
 ```bash
-kubectl logs -f -n observability daemonset/promtail
+kubectl logs -f -n logging daemonset/promtail
 ```
 
 ## Restart Promtail
 
 ```bash
-kubectl rollout restart daemonset promtail -n observability
+kubectl rollout restart daemonset promtail -n logging
 ```
 
 ## Check DaemonSet Status
 
 ```bash
-kubectl rollout status daemonset promtail -n observability
+kubectl rollout status daemonset promtail -n logging
 ```
 
 ## Delete Promtail
@@ -333,19 +333,19 @@ This allows the cluster to evolve into a complete production-grade monitoring pl
 View namespace resource usage:
 
 ```bash
-kubectl top pods -n observability
+kubectl top pods -n logging
 ```
 
 View events:
 
 ```bash
-kubectl get events -n observability --sort-by=.metadata.creationTimestamp
+kubectl get events -n logging --sort-by=.metadata.creationTimestamp
 ```
 
 Backup manifests:
 
 ```bash
-kubectl get all -n observability -o yaml > observability-backup.yaml
+kubectl get all -n logging -o yaml > logging-backup.yaml
 ```
 
 ---
@@ -358,7 +358,7 @@ Keep application workloads and observability workloads separated:
 django-auth namespace
 └── Business Applications
 
-observability namespace
+logging namespace
 └── Monitoring and Logging
 
 kube-system namespace

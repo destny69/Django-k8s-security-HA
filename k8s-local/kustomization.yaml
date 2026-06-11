@@ -18,6 +18,11 @@ resources:
   - django/hpa.yaml
   - django/pdb.yaml
 
+  # - observability/promtail/serviceaccount.yaml
+  # - observability/promtail/rbac.yaml
+  # - observability/promtail/daemonset.yaml
+  # - observability/promtail/configmap.yaml
+
   - ingress/middleware-ratelimit.yaml
   - ingress/ingress.yaml
 

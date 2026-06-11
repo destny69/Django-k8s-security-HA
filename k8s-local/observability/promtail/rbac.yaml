@@ -2,23 +2,31 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: promtail
+
 rules:
-  - apiGroups: [""]
-    resources:
-      - pods
-      - nodes
-      - namespaces
-    verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+    - pods
+    - nodes
+    - services
+    - namespaces
+  verbs:
+    - get
+    - list
+    - watch
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: promtail
+
+subjects:
+- kind: ServiceAccount
+  name: promtail
+  namespace: logging
+
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: promtail
-subjects:
-  - kind: ServiceAccount
-    name: promtail
-    namespace: logging
+  apiGroup: rbac.authorization.k8s.io
