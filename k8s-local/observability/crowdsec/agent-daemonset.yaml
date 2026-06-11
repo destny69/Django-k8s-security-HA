@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+
+metadata:
+  name: crowdsec-agent
+  namespace: crowdsec
+
+spec:
+  selector:
+    matchLabels:
+      app: crowdsec-agent
+
+  template:
+    metadata:
+      labels:
+        app: crowdsec-agent
+
+    spec:
+      containers:
+      - name: crowdsec
+
+        image: crowdsecurity/crowdsec:latest
+
+        env:
+        - name: COLLECTIONS
+          value: crowdsecurity/traefik
+
+        volumeMounts:
+
+        - name: logs
+          mountPath: /var/log
+
+      volumes:
+      - name: logs
+        hostPath:
+          path: /var/log
